@@ -97,32 +97,26 @@ import { twMerge } from 'tailwind-merge';
 import { store } from '../lib/store';
 import { FaMinus, FaPlus } from 'react-icons/fa6';
 import PriceFormat from './PriceFormat';
-import type { Product } from "@/app/lib/Type";  
+import type { BaseProduct, CartProduct } from '@/app/lib/Type';
 
 interface Props {
-  product: Product;
+  product: BaseProduct;
   className?: string;
   showSubtotal?: boolean;
 }
 
 const AddToCartButton = ({ product, className, showSubtotal = true }: Props) => {
-  const [existingProduct, setExistingProduct] = useState<Product | null>(null);
+  const [existingProduct, setExistingProduct] = useState<CartProduct | null>(null);
   const { addToCart, cartProduct, decreaseQuantity } = store();
 
   useEffect(() => {
-    const availableItem = cartProduct?.find((item) => item.id === product.id);
-    if (availableItem && typeof availableItem.quantity === 'number') {
-      setExistingProduct(availableItem); // تأكيد النوع أصبح غير مطلوب لأن quantity موجود دائمًا
-    } else {
-      setExistingProduct(null);
-    }
+    const found = cartProduct.find((item) => item.id === product.id);
+    setExistingProduct(found ?? null);
   }, [product, cartProduct]);
 
   const handleAddToCart = () => {
-    if (product) {
-      addToCart(product);
-      toast.success(`${product.title.substring(0, 12)}... added successfully!`);
-    }
+    addToCart(product);
+    toast.success(`${product.title.substring(0, 12)}... added successfully!`);
   };
 
   const handleIncrease = () => {
@@ -135,7 +129,7 @@ const AddToCartButton = ({ product, className, showSubtotal = true }: Props) => 
       decreaseQuantity(product.id);
       toast.success(`${product.title.substring(0, 12)} decreased successfully!`);
     } else {
-      toast.error("You cannot decrease below 1");
+      toast.error('You cannot decrease below 1');
     }
   };
 
@@ -147,8 +141,8 @@ const AddToCartButton = ({ product, className, showSubtotal = true }: Props) => 
             disabled={existingProduct.quantity === 1}
             onClick={handleDecrease}
             className={twMerge(
-              "bg-[#f7f7f7] text-black p-2 border hover:border-sky-600 rounded-full text-sm hover:bg-white duration-200 cursor-pointer",
-              existingProduct.quantity === 1 && "bg-gray-200 text-gray-300 hover:bg-transparent hover:border-transparent"
+              'bg-[#f7f7f7] text-black p-2 border hover:border-sky-600 rounded-full text-sm hover:bg-white duration-200 cursor-pointer',
+              existingProduct.quantity === 1 && 'bg-gray-200 text-gray-300 hover:bg-transparent hover:border-transparent'
             )}
           >
             <FaMinus />
