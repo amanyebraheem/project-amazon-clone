@@ -18,7 +18,7 @@ const CartPage = () => {
   } = store();
 
   const totalPrice = cartProduct.reduce(
-    (acc, item) => acc + item.price * (item.quantity || 1),
+    (acc, item) => acc + item.price * item.quantity,
     0
   );
 
