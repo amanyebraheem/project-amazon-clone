@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Product } from "@/app/lib/Type";
 import { fetchData } from "@/app/lib";
@@ -14,7 +13,7 @@ interface PageProps {
   };
 }
 
-const SingleProductPage = async ({ params }: PageProps) => {
+const SingleProductPage = async ({ params }: PageProps): Promise<JSX.Element> => {
   const { id } = params;
 
   const product: Product | null = await fetchData(`https://dummyjson.com/products/${id}`);
