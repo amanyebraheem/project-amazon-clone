@@ -7,13 +7,11 @@ import AddToCartButton from "@/app/components/AddToCartButton";
 import Container from "@/app/components/Container";
 import { MdStar } from "react-icons/md";
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
-const SingleProductPage = async ({ params }: PageProps): Promise<JSX.Element> => {
+const SingleProductPage = async ({
+  params,
+}: {
+  params: { id: string };
+}): Promise<JSX.Element> => {
   const { id } = params;
 
   const product: Product | null = await fetchData(`https://dummyjson.com/products/${id}`);
