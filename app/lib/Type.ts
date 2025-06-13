@@ -6,8 +6,6 @@ export interface Product {
   category: string;
   thumbnail: string;
   images?: string[];
+  quantity?: number;
 }
 
-export interface CartProduct extends Product {
-  quantity: number;
-}
