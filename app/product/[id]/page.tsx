@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Product } from "@/app/lib/Type";
 import { fetchData } from "@/app/lib";
@@ -7,12 +8,12 @@ import AddToCartButton from "@/app/components/AddToCartButton";
 import Container from "@/app/components/Container";
 import { MdStar } from "react-icons/md";
 
-const SingleProductPage = async ({
-  params,
-}: {
-  params: { id: string }
-}) => {
-  const { id } = params;
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
+
+const SingleProductPage = async ({ params }: PageProps) => {
+  const { id } = await params;
 
   const product: Product | null = await fetchData(`https://dummyjson.com/products/${id}`);
 
@@ -57,8 +58,12 @@ const SingleProductPage = async ({
 
           <p className="text-gray-700">{product.description}</p>
 
-          <p><strong>Brand:</strong> {product.brand}</p>
-          <p><strong>Category:</strong> {product.category}</p>
+          <p>
+            <strong>Brand:</strong> {product.brand}
+          </p>
+          <p>
+            <strong>Category:</strong> {product.category}
+          </p>
 
           <AddToCartButton product={product} />
         </div>
