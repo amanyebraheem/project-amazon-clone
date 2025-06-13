@@ -1,23 +1,21 @@
 
-
-
-
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import { store } from '../lib/store';
 import { FaMinus, FaPlus } from 'react-icons/fa6';
 import PriceFormat from './PriceFormat';
+import type { Product } from "@/app/lib/Type"; // ✅ استيراد نوع المنتج
 
 interface Props {
   product: Product;
   className?: string;
-  showSubtotal?:boolean;
-  
+  showSubtotal?: boolean;
 }
 
-const AddToCartButton = ({ product, className,showSubtotal = true }: Props) => {
+const AddToCartButton = ({ product, className, showSubtotal = true }: Props) => {
   const [existingProduct, setExistingProduct] = useState<Product | null>(null);
   const { addToCart, cartProduct, decreaseQuantity } = store();
 
@@ -27,7 +25,7 @@ const AddToCartButton = ({ product, className,showSubtotal = true }: Props) => {
   }, [product, cartProduct]);
 
   const handleAddToCart = () => {
-    if (product) { 
+    if (product) {
       addToCart(product);
       toast.success(`${product?.title.substring(0, 12)}... added successfully!`);
     }
@@ -41,10 +39,9 @@ const AddToCartButton = ({ product, className,showSubtotal = true }: Props) => {
   const handleDecrease = () => {
     if (existingProduct && existingProduct.quantity! > 1) {
       decreaseQuantity(product.id);
-      toast.success(`${product?.title.substring(0, 12)} decreased successfully! `);
-    }
-    else {
-        toast.error("you can not decrease less than 1")
+      toast.success(`${product?.title.substring(0, 12)} decreased successfully!`);
+    } else {
+      toast.error("You cannot decrease below 1");
     }
   };
 
@@ -52,13 +49,13 @@ const AddToCartButton = ({ product, className,showSubtotal = true }: Props) => {
     <>
       {existingProduct ? (
         <div className="flex self-start items-center justify-center gap-2 py-2 mb-2">
-
           <button
-
-disabled={existingProduct?.quantity === 1 }
-
+            disabled={existingProduct?.quantity === 1}
             onClick={handleDecrease}
-            className={`bg-[#f7f7f7] text-black p-2 border hover:border-sky-600 rounded-full text-sm hover:bg-white duration-200 cursor-pointer  ${existingProduct?.quantity ===1 && 'bg-gray-200 text-gray-300  hover:bg-transparent  hover:border-transparent disabled:hover:border-gary-300  '}`}
+            className={`bg-[#f7f7f7] text-black p-2 border hover:border-sky-600 rounded-full text-sm hover:bg-white duration-200 cursor-pointer ${
+              existingProduct?.quantity === 1 &&
+              'bg-gray-200 text-gray-300 hover:bg-transparent hover:border-transparent'
+            }`}
           >
             <FaMinus />
           </button>
@@ -72,13 +69,13 @@ disabled={existingProduct?.quantity === 1 }
             <FaPlus />
           </button>
 
-
-          {existingProduct && showSubtotal && <div>
-            <p>Subtotal: </p>
-            <PriceFormat  amount={(existingProduct?.quantity as number)* existingProduct?.price}/>
-            </div>}
+          {existingProduct && showSubtotal && (
+            <div>
+              <p>Subtotal:</p>
+              <PriceFormat amount={(existingProduct.quantity || 1) * existingProduct.price} />
+            </div>
+          )}
         </div>
-
       ) : (
         <button
           onClick={handleAddToCart}
