@@ -79,14 +79,17 @@
 //     }
 //   )
 // );
+
+
+// lib/store.ts
 'use client';
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Product } from './Type';
+import type { Product, CartProduct } from './Type';
 
 interface StoreState {
-  cartProduct: Product[];
+  cartProduct: CartProduct[];
   favoriteProduct: Product[];
 
   addToCart: (product: Product) => void;
@@ -114,7 +117,6 @@ export const store = create<StoreState>()(
             ),
           });
         } else {
-          // تأكد أن تضيف quantity 1 عند الإضافة لأول مرة
           set({
             cartProduct: [...get().cartProduct, { ...product, quantity: 1 }],
           });
@@ -122,7 +124,9 @@ export const store = create<StoreState>()(
       },
 
       removeFromCart: (id) =>
-        set({ cartProduct: get().cartProduct.filter((p) => p.id !== id) }),
+        set({
+          cartProduct: get().cartProduct.filter((p) => p.id !== id),
+        }),
 
       decreaseQuantity: (id) =>
         set({
@@ -138,7 +142,9 @@ export const store = create<StoreState>()(
       addToFavorite: (product) => {
         const exists = get().favoriteProduct.find((p) => p.id === product.id);
         if (!exists) {
-          set({ favoriteProduct: [...get().favoriteProduct, product] });
+          set({
+            favoriteProduct: [...get().favoriteProduct, product],
+          });
         }
       },
 
