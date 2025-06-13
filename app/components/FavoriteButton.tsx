@@ -5,7 +5,7 @@ import React from 'react';
 import { store } from '../lib/store';
 
 const FavoriteButton = () => {
-  const { favoriteProduct } = store();
+  const favoriteProduct = store((state) => state.favoriteProduct);
 
   return (
     <div>
@@ -16,7 +16,7 @@ const FavoriteButton = () => {
         <p>Marked</p>
         <p className="text-white font-bold">& Favorite</p>
         <span className="absolute right-1 top-1 w-4 h-4 border border-gray-400 px-0 text-xs text-[#Fa8900] font-medium rounded-sm text-center">
-          {favoriteProduct?.length ?? 0}
+          {favoriteProduct.length}
         </span>
       </Link>
     </div>

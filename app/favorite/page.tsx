@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React from 'react';
@@ -10,7 +9,8 @@ import toast from 'react-hot-toast';
 import PriceFormat from '../components/PriceFormat';
 
 const FavoritePage = () => {
-  const { favoriteProduct, removeFromFavorite } = store();
+  const favoriteProduct = store((state) => state.favoriteProduct);
+  const removeFromFavorite = store((state) => state.removeFromFavorite);
 
   if (favoriteProduct.length === 0) {
     return (

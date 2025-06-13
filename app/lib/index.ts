@@ -1,5 +1,3 @@
-
-
 export const fetchData = async (endpoint: string = "https://dummyjson.com/products") => {
   const res = await fetch(endpoint, {
     method: "GET",

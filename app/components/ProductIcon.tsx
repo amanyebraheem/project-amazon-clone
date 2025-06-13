@@ -1,4 +1,4 @@
-
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -6,28 +6,25 @@ import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
 import { store } from '../lib/store';
 import { Product } from '../lib/Type';
 
-
 const ProductIcon = ({ product }: { product: Product }) => {
-  const { favoriteProduct, addToFavorite } = store();
-  const [existingProduct, setExistingProduct] = useState<Product | null>(null);
+  const { favoriteProduct, addToFavorite, removeFromFavorite } = store();
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    const availableItem = favoriteProduct?.find((item) => item?.id === product.id);
-    setExistingProduct(availableItem || null);
+    const found = favoriteProduct.some((item) => item.id === product.id);
+    setIsFavorite(found);
   }, [favoriteProduct, product.id]);
 
   const handleFavorite = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
 
-    const isExisting = favoriteProduct?.some((item) => item.id === product.id);
-
-    addToFavorite(product).then(() => {
-      if (isExisting) {
-        toast.success(`${product?.title.substring(0, 10)} removed successfully!`);
-      } else {
-        toast.success(`${product?.title.substring(0, 10)} added to favorite!`);
-      }
-    });
+    if (isFavorite) {
+      removeFromFavorite(product.id);
+      toast.success(`"${product.title.substring(0, 10)}" removed from favorites!`);
+    } else {
+      addToFavorite(product);
+      toast.success(`"${product.title.substring(0, 10)}" added to favorites!`);
+    }
   };
 
   return (
@@ -36,9 +33,8 @@ const ProductIcon = ({ product }: { product: Product }) => {
         {product?.discountPercentage}%
       </p>
       <span className='text-xl z-40 cursor-pointer' onClick={handleFavorite}>
-        {existingProduct ? <MdFavorite className='text-red-500' /> : <MdFavoriteBorder />}
+        {isFavorite ? <MdFavorite className='text-red-500' /> : <MdFavoriteBorder />}
       </span>
-    
     </div>
   );
 };

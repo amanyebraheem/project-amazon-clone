@@ -14,7 +14,7 @@ export interface Product {
 
 interface StoreState {
   cartProduct: Product[];
-  favoriteProduct: Product[]; // ✅ إضافة المفضلة
+  favoriteProduct: Product[]; 
   addToCart: (product: Product) => void;
   removeFromCart: (id: number) => void;
   decreaseQuantity: (id: number) => void;
@@ -29,7 +29,7 @@ export const store = create<StoreState>()(
   persist(
     (set, get) => ({
       cartProduct: [],
-      favoriteProduct: [], // ✅
+      favoriteProduct: [], 
 
       addToCart: (product) => {
         const existing = get().cartProduct.find((p) => p.id === product.id);
@@ -59,7 +59,7 @@ export const store = create<StoreState>()(
       resetCart: () => set({ cartProduct: [] }),
    
 
-      // ✅ مفضلة
+      
       addToFavorite: (product) => {
         const existing = get().favoriteProduct.find((p) => p.id === product.id);
         if (!existing) {
