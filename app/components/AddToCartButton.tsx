@@ -90,7 +90,6 @@
 
 // export default AddToCartButton;
 
-
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -127,7 +126,7 @@ const AddToCartButton = ({ product, className, showSubtotal = true }: Props) => 
   };
 
   const handleDecrease = () => {
-    if (existingProduct && existingProduct.quantity > 1) {
+    if ((existingProduct?.quantity ?? 0) > 1) {
       decreaseQuantity(product.id);
       toast.success(`${product.title.substring(0, 12)} decreased successfully!`);
     } else {
@@ -140,16 +139,21 @@ const AddToCartButton = ({ product, className, showSubtotal = true }: Props) => 
       {existingProduct ? (
         <div className="flex self-start items-center justify-center gap-2 py-2 mb-2">
           <button
-            disabled={existingProduct.quantity === 1}
+            disabled={(existingProduct?.quantity ?? 1) === 1}
             onClick={handleDecrease}
             className={twMerge(
               'bg-[#f7f7f7] text-black p-2 border hover:border-sky-600 rounded-full text-sm hover:bg-white duration-200 cursor-pointer',
-              existingProduct.quantity === 1 && 'bg-gray-200 text-gray-300 hover:bg-transparent hover:border-transparent'
+              (existingProduct?.quantity ?? 1) === 1 &&
+                'bg-gray-200 text-gray-300 hover:bg-transparent hover:border-transparent'
             )}
           >
             <FaMinus />
           </button>
-          <p className="text-base font-semibold w-6 text-center">{existingProduct.quantity}</p>
+
+          <p className="text-base font-semibold w-6 text-center">
+            {existingProduct?.quantity ?? 1}
+          </p>
+
           <button
             onClick={handleIncrease}
             className="bg-[#f7f7f7] text-black p-2 border hover:border-sky-600 rounded-full text-sm hover:bg-white duration-200 cursor-pointer"
@@ -160,7 +164,7 @@ const AddToCartButton = ({ product, className, showSubtotal = true }: Props) => 
           {showSubtotal && (
             <div>
               <p>Subtotal:</p>
-              <PriceFormat amount={existingProduct.quantity * existingProduct.price} />
+              <PriceFormat amount={(existingProduct?.quantity ?? 1) * existingProduct.price} />
             </div>
           )}
         </div>
@@ -180,4 +184,3 @@ const AddToCartButton = ({ product, className, showSubtotal = true }: Props) => 
 };
 
 export default AddToCartButton;
-
