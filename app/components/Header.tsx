@@ -43,8 +43,8 @@ const categories = await fetchData(endpoint);
 
             </div>
 
+<SearchInput categories={categories} />
 
-<SearchInput  categories={categories}  />
 <SignInButton />
 
 <FavoriteButton />
