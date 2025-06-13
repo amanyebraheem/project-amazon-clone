@@ -10,8 +10,8 @@ import { MdStar } from "react-icons/md";
 const SingleProductPage = async ({
   params,
 }: {
-  params: { id: string };
-}): Promise<JSX.Element> => {
+  params: { id: string }
+}) => {
   const { id } = params;
 
   const product: Product | null = await fetchData(`https://dummyjson.com/products/${id}`);
@@ -57,12 +57,8 @@ const SingleProductPage = async ({
 
           <p className="text-gray-700">{product.description}</p>
 
-          <p>
-            <strong>Brand:</strong> {product.brand}
-          </p>
-          <p>
-            <strong>Category:</strong> {product.category}
-          </p>
+          <p><strong>Brand:</strong> {product.brand}</p>
+          <p><strong>Category:</strong> {product.category}</p>
 
           <AddToCartButton product={product} />
         </div>
