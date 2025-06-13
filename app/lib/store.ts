@@ -83,18 +83,18 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { BaseProduct, CartProduct } from '@/app/lib/Type';
+import type { Product } from './Type';
 
 interface StoreState {
-  cartProduct: CartProduct[];
-  favoriteProduct: BaseProduct[];
-  
-  addToCart: (product: BaseProduct) => void;
+  cartProduct: Product[];
+  favoriteProduct: Product[];
+
+  addToCart: (product: Product) => void;
   removeFromCart: (id: number) => void;
   decreaseQuantity: (id: number) => void;
   resetCart: () => void;
-  
-  addToFavorite: (product: BaseProduct) => void;
+
+  addToFavorite: (product: Product) => void;
   removeFromFavorite: (id: number) => void;
   clearFavorite: () => void;
 }
@@ -114,6 +114,7 @@ export const store = create<StoreState>()(
             ),
           });
         } else {
+          // تأكد أن تضيف quantity 1 عند الإضافة لأول مرة
           set({
             cartProduct: [...get().cartProduct, { ...product, quantity: 1 }],
           });

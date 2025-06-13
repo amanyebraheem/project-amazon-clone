@@ -89,6 +89,8 @@
 // };
 
 // export default AddToCartButton;
+
+
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -97,16 +99,16 @@ import { twMerge } from 'tailwind-merge';
 import { store } from '../lib/store';
 import { FaMinus, FaPlus } from 'react-icons/fa6';
 import PriceFormat from './PriceFormat';
-import type { BaseProduct, CartProduct } from '@/app/lib/Type';
+import type { Product } from '../lib/Type';
 
 interface Props {
-  product: BaseProduct;
+  product: Product;
   className?: string;
   showSubtotal?: boolean;
 }
 
 const AddToCartButton = ({ product, className, showSubtotal = true }: Props) => {
-  const [existingProduct, setExistingProduct] = useState<CartProduct | null>(null);
+  const [existingProduct, setExistingProduct] = useState<Product | null>(null);
   const { addToCart, cartProduct, decreaseQuantity } = store();
 
   useEffect(() => {
@@ -178,3 +180,4 @@ const AddToCartButton = ({ product, className, showSubtotal = true }: Props) => 
 };
 
 export default AddToCartButton;
+
